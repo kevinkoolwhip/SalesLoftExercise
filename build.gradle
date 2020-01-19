@@ -1,0 +1,92 @@
+buildscript {
+    ext.repos = {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    repositories repos
+
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.2.RELEASE'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+group 'com.kevinkoleck.io'
+version = project.property("version") + getBuildTag()
+
+
+repositories repos
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [ "${rootProject.projectDir}/src/main/java"]
+        }
+        resources {
+            srcDirs = [ "${rootProject.projectDir}/src/main/resources"]
+        }
+    }
+    test {
+        java {
+            srcDirs = [ "${rootProject.projectDir}/src/test/java"]
+        }
+        resources {
+            srcDirs = [ "${rootProject.projectDir}/src/test/resources"]
+        }
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.2.2.RELEASE'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.kevinkoleck.io.application.Application'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+def getBuildTag() {
+    def gitBranch = ""
+    def buildTag = ""
+    try {
+        def workingDir = new File("${project.projectDir}")
+        def result = 'git name-rev --name-only HEAD'.execute(null, workingDir)
+        result.waitFor()
+        if(result.exitValue() == 0 ) {
+            gitBranch = result.text.trim().replace("/", "-").replaceAll("remote-origin-", "")
+        }
+    } catch (e) {
+        println("EXCEPTION THROWN WHILE GETTING GIT BRANCH")
+        println(e.getMessage())
+        println(e.getStackTrace())
+    }
+
+    if(gitBranch == "master"){
+        buildTag = "SNAPSHOT"
+    } else {
+        buildTag = "${gitBranch}-SNAPSHOT"
+    }
+
+    return buildTag
+}
