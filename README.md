@@ -4,11 +4,11 @@ This project uses AngularJS for the frontend and Java, Spring Framework, and Gra
 
 ## Getting Started
 ### Prerequisites
-This project has only been tested on a MacOS. Might not work on Windows OS. 
+This project has only been tested on MacOS. Might not work on other OS 
 Must have the port 8080 and 8081 open.
 Must have open internet access
 Must have NPM installed
-Must have NPM package concurrently installed, if not, use `npm i concurrently --save-dev` to install
+Must have NPM package concurrently installed. If not, use `npm i concurrently --save-dev` to install
 
 ### Running Locally
 * Install website dependencies with the command `npm install`
