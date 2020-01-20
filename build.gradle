@@ -46,8 +46,15 @@ sourceSets {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.2.2.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-web',    version: '2.2.2.RELEASE'
+    compile group: 'org.projectlombok',             name: 'lombok',                 version: '1.18.10'
+    compile group: 'com.squareup.okhttp3',          name: 'okhttp',                 version: '4.3.1'
+    compile group: 'org.apache.httpcomponents',     name: 'httpclient',             version: '4.2.2'
+    compile group: 'com.google.code.gson',          name: 'gson',                   version: '2.8.6'
+
+    testCompile group: 'junit',                     name: 'junit',                  version: '4.11'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
