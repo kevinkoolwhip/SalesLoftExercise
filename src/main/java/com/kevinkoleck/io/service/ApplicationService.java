@@ -13,18 +13,20 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by kevinkoleck on 1/19/20.
  */
 public class ApplicationService {
 
+    private final static double SIMILARITY_THRESHOLD = 0.8;
     private final String API_KEY;
     private final OkHttpClient httpClient = new OkHttpClient();
-    private final static double SIMILARITY_THRESHOLD = 0.8;
 
-    public ApplicationService(String apiKey ){
+    public ApplicationService(String apiKey) {
         API_KEY = apiKey;
     }
 
@@ -39,7 +41,8 @@ public class ApplicationService {
 
             JsonElement data = JsonParser.parseString(response.body().string()).getAsJsonObject().get("data");
             Gson gson = new Gson();
-            List<Person> personList = gson.fromJson(data, new TypeToken<List<Person>>(){}.getType());
+            List<Person> personList = gson.fromJson(data, new TypeToken<List<Person>>() {
+            }.getType());
             return Optional.of(personList);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +54,7 @@ public class ApplicationService {
         Optional<List<Person>> personList = getListOfPeople();
         List<EmailAndUniqueCharacterCount> mapList = new ArrayList<>();
 
-        for(Person person: personList.get()) {
+        for (Person person : personList.get()) {
             List<UniqueCharacterCount> tempUniqueCharactersAndCount = getUniqueCharactersAndCount(person.getEmailAddress());
             EmailAndUniqueCharacterCount tempEmailUniqueCharactersAndCount = new EmailAndUniqueCharacterCount(person.getEmailAddress(), tempUniqueCharactersAndCount);
             mapList.add(tempEmailUniqueCharactersAndCount);
@@ -75,7 +78,7 @@ public class ApplicationService {
         return duplicateEmails;
     }
 
-    private List<UniqueCharacterCount> getUniqueCharactersAndCount(String string){
+    private List<UniqueCharacterCount> getUniqueCharactersAndCount(String string) {
         List<UniqueCharacterCount> uniqueCharacterCountList = new ArrayList<>();
 
         string.chars().distinct().forEach(x -> {
@@ -95,7 +98,8 @@ public class ApplicationService {
     private double similarity(String s1, String s2) {
         String longer = s1, shorter = s2;
         if (s1.length() < s2.length()) {
-            longer = s2; shorter = s1;
+            longer = s2;
+            shorter = s1;
         }
         int longerLength = longer.length();
         if (longerLength == 0) {

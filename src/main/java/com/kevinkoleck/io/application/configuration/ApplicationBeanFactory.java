@@ -12,22 +12,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationBeanFactory {
 
-    private final ApplicationConfig  applicationConfig;
+    private final ApplicationConfig applicationConfig;
 
-    public ApplicationBeanFactory(ApplicationConfig applicationConfig){
+    public ApplicationBeanFactory(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
     }
 
     @Bean
     public ApplicationService applicationService() throws Exception {
-        if(applicationConfig.getApiKey().isEmpty()){
+        if (applicationConfig.getApiKey().isEmpty()) {
             throw new Exception("API KEY IS NOT SET, SET ENVIRONMENT VARIABLE API_KEY WITH SALESLOFT API KEY");
         }
         return new ApplicationService(applicationConfig.getApiKey());
     }
 
     @Bean
-    public ApplicationController applicationController(ApplicationService applicationService){
+    public ApplicationController applicationController(ApplicationService applicationService) {
         return new ApplicationController(applicationService);
     }
 }
