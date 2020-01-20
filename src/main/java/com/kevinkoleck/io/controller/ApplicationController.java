@@ -1,5 +1,6 @@
 package com.kevinkoleck.io.controller;
 
+import com.kevinkoleck.io.model.DuplicateEmail;
 import com.kevinkoleck.io.model.EmailAndUniqueCharacterCount;
 import com.kevinkoleck.io.model.Person;
 import com.kevinkoleck.io.service.ApplicationService;
@@ -30,6 +31,12 @@ public class ApplicationController {
     @CrossOrigin
     @GetMapping("/person/unique")
     public List<EmailAndUniqueCharacterCount> getEmailAndUniqueCharacterAndCount() {
-        return applicationService.getEmailAndUniqueCharacterAndCount().get();
+        return applicationService.getEmailAndUniqueCharacterAndCount();
+    }
+
+    @CrossOrigin
+    @GetMapping("/email/unique")
+    public List<DuplicateEmail> getDuplicateEmail() {
+        return applicationService.getDuplicateEmail();
     }
 }
