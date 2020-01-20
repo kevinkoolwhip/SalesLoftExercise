@@ -9,3 +9,5 @@ bin
 *.iml
 *.ipr
 *.iws
+node_modules/
+app/lib/

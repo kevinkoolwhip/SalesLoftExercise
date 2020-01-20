@@ -1,0 +1,24 @@
+<table>
+    <thead>
+    <tr class="header">
+        <td>Email</td>
+        <td>Characters</td>
+    </tr>
+    </thead>
+    <tr ng-repeat="x in emails">
+        <td>{{ x.email }}</td>
+        <td>
+            <table>
+                <thead>
+                <tr class="header">
+                    <td>Character</td>
+                    <td>Count</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="y in x.uniqueCharacterCount | orderBy:'-count'">
+                    <td>{{y.character}}</td>
+                    <td>{{y.count}}</td>
+            </table>
+        </td>
+    </tr>
+</table>
