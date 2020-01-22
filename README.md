@@ -24,7 +24,7 @@ To build the backend server us the command `./gradlew clean build`
 Define API Key by setting it in the environment variables. Use the command `export API_KEY={API_KEY}` The backend server won't start unless this is set'
 To run the backend server use the command `./gradlew clean bootrun`
 
-##TODO
+## TODO
 Here is a list of changes that would be made to make this project more robust.
 
 * Dockerize the backend
